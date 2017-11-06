@@ -23,12 +23,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    public function proyectos()
-    {
-        return $this->hasMany('tpiproject\Proyecto');
-    }
-    public function pasantias()
-    {
-        return $this->hasMany('tpiproject\Pasantia');
-    }
 }

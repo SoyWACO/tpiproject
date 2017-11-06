@@ -144,6 +144,7 @@
 		  							</tr>
 					  			</thead>
 					  			<tbody>
+					  			<!-- Inicio de la wea que no sirve (no más es para ver si mostraba las carreras ya registradas por el momento, no las edita) -->
 					  			@foreach($carreras as $car)
 	  								<tr class="selected" id="fila'+cont+'">
 	  									<td style="vertical-align: middle;">
@@ -154,6 +155,7 @@
 	  									</td>
 	  								</tr>
 	  							@endforeach
+	  							<!-- FIn de la wea que no sirve -->
 			  					</tbody>
 							</table>
 					  		</div>

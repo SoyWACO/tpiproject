@@ -8,7 +8,6 @@ class Proyecto extends Model
 {
     protected $table = 'proyectos';
     protected $primaryKey = 'id';
-    //public $timestamps = true;
     protected $fillable = [
     	'id_empresa',
     	'nombre',
@@ -18,12 +17,4 @@ class Proyecto extends Model
     protected $guarded = [
     	//
     ];
-    public function user()
-    {
-        return $this->belongsTo('tpiproject\User');
-    }
-    public function carreras()
-    {
-        return $this->belongsToMany('tpiproject\Carrera');
-    }
 }

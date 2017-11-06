@@ -8,7 +8,6 @@ class Pasantia extends Model
 {
     protected $table = 'pasantias';
     protected $primaryKey = 'id';
-    //public $timestamps = true;
     protected $fillable = [
     	'id_empresa',
     	'nombre',
@@ -25,12 +24,4 @@ class Pasantia extends Model
     protected $guarded = [
     	//
     ];
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
-    public function carreras()
-    {
-        return $this->belongsToMany('App\Carrera');
-    }
 }
