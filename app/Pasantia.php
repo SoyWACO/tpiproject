@@ -25,4 +25,12 @@ class Pasantia extends Model
     protected $guarded = [
     	//
     ];
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+    public function carreras()
+    {
+        return $this->belongsToMany('App\Carrera');
+    }
 }

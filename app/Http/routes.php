@@ -23,4 +23,8 @@ Route::resource('ofertas/proyecto', 'ProyectoController');
 
 Route::resource('ofertas/pasantia', 'PasantiaController');
 
+Route::resource('buscar/proyecto', 'BuscarProyectoController');
+
+Route::resource('buscar/pasantia', 'BuscarPasantiaController');
+
 Route::resource('administracion/carreras', 'CarreraController');

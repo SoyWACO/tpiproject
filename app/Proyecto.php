@@ -18,4 +18,12 @@ class Proyecto extends Model
     protected $guarded = [
     	//
     ];
+    public function user()
+    {
+        return $this->belongsTo('tpiproject\User');
+    }
+    public function carreras()
+    {
+        return $this->belongsToMany('tpiproject\Carrera');
+    }
 }

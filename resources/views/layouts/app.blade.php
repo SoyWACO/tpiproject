@@ -52,6 +52,15 @@
             text-align: right;
         }
 
+        .bs-callout {
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #eee;
+            border-left-color: #1b809e;
+            border-left-width: 5px;
+            border-radius: 3px;
+        }
+
     </style>
 </head>
 <body id="app-layout">
@@ -69,14 +78,15 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                    TPIproject
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Inicio</a></li>
+                    <!-- <li><a href="{{ url('/home') }}">Inicio</a></li> -->
+                    <li><a href="{{ url('buscar/proyecto') }}">Inicio</a></li>
                     <li><a href="{{ url('ofertas/proyecto') }}">Proyectos</a></li>
                     <li><a href="{{ url('ofertas/pasantia') }}">Pasantías</a></li>
                 </ul>
@@ -94,7 +104,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Cerrar sesión</a></li>
                             </ul>
                         </li>
                     @endif
