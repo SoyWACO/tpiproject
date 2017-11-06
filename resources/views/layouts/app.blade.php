@@ -28,19 +28,34 @@
 -->
 
     <style>
-    /*
         body {
-            font-family: 'Lato';
+            /*font-family: 'Lato';*/
+            padding-top: 70px;
+            background-color: #f9f9f9;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-image: url({{asset('images/fondo.jpg')}});
+
         }
-    */
 
         .fa-btn {
             margin-right: 6px;
         }
+
+        .mi_margen {
+            margin-bottom: 10px;
+        }
+
+        .alinear {
+            text-align: right;
+        }
+
     </style>
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
 
@@ -61,15 +76,17 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/home') }}">Inicio</a></li>
+                    <li><a href="{{ url('ofertas/proyecto') }}">Proyectos</a></li>
+                    <li><a href="{{ url('ofertas/pasantia') }}">Pasantías</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
+                        <li><a href="{{ url('/login') }}">Iniciar sesión</a></li>
+                        <li><a href="{{ url('/register') }}">Registrar</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -86,10 +103,13 @@
         </div>
     </nav>
 
-    @yield('content')
+    <div class="container">
+        @yield('content')
+    </div>
 
     <!-- JavaScripts -->
     <script src="{{asset('js/jquery.js')}}"></script>
+    @stack('scripts')
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
 <!--
