@@ -1,0 +1,36 @@
+* Para la base de datos:
+
+- En el .env modifiquen según sus necesidades:
+	DB_DATABASE=tpiproject
+	DB_USERNAME=root
+	DB_PASSWORD=
+  Ustedes pueden crearse una base de datos con el mismo nombre
+  u otro, además de poner su correspondiente número de usuario
+  y contraseña, yo dejé los que trae por defecto xampp. :v
+
+- Estando en la consola en la carpeta del proyecto pongan:
+	php artisan migrate
+  Esto va a crear las tablas en la base de datos.
+
+- En la carpeta tpiproject/database/mis_registros se encuentra
+  el archivo carreras.csv para poder llenar la tabla de carreras.
+
+- Para las demás tablas ustedes pueden ir creando registros mientras
+  usan el proyecto.
+
+- Listo. Ya pueden poner en marcha el proyecto con:
+	php artisan serve
+  (Recuerden tener encendidos el modulo de apache y mysql de xampp
+  o lo que esten usando :v)
+
+* Observaciones:
+
+- La parte de editar aún no está terminada tanto en los proyectos
+  como en las pasantías. :v
+- Le falta al frontend. :v
+- Cambie la idea de que fuera como red social porque muy complicado
+  y hay que hacer el de Química. :v Ahora es como un buscador para
+  los estudiantes y siempre las empresas con las opciones de publicar
+  sus ofertas.
+
+Creo que eso es todo. #HailNetWar :v

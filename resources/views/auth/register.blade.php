@@ -143,6 +143,8 @@
 
                             <div class="col-md-6">
 
+                            <!-- Por no querer buscar como hacer llaves foraneas en la migración de users. :v -->
+
                                 {!! Form::select('ciudad', [
                                     'Ahuachapán' => [
                                         'Ahuachapán, Ahuachapán' => 'Ahuachapán',
