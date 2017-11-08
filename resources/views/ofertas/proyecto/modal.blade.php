@@ -9,7 +9,7 @@
 					<h4 class="modal-title">Eliminar proyecto</h4>
 				</div>
 				<div class="modal-body">
-					<p>¿Desea eliminar el proyecto?</p>
+					<p>¿Desea eliminar este proyecto?</p>
 				</div>
 				<div class="modal-footer">
 					<div class="modal-footer">

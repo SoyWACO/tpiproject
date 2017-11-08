@@ -32,13 +32,15 @@ class BuscarProyectoController extends Controller
             $proyectos = DB::table('proyectos as p')
                 ->join('users as u', 'p.id_empresa', '=', 'u.id')
                 ->join('proyecto_carrera as pc', 'p.id', '=', 'pc.id_proyecto')
-                ->select('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email')
+                ->select('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad')
                 ->where('p.nombre', 'like', '%'.$query.'%')
                 ->where('p.estado', '=', 'Disponible')
                 ->orwhere('p.descripcion', 'like', '%'.$query.'%')
                 ->where('p.estado', '=', 'Disponible')
+                ->orwhere('u.ciudad', 'like', '%'.$query.'%')
+                ->where('p.estado', '=', 'Disponible')
                 ->orderBy('p.created_at', 'desc')
-                ->groupBy('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email')
+                ->groupBy('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad')
                 ->paginate(5);
             return view('buscar.proyecto.index', ["proyectos"=>$proyectos, "searchText"=>$query]);
     	}

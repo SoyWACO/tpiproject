@@ -30,16 +30,9 @@
 -->
 
     <style>
+        
         body {
-            /*font-family: 'Lato';*/
             padding-top: 70px;
-            background-color: #f9f9f9;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            background-image: url({{asset('images/fondo.jpg')}});
-
         }
 
         .fa-btn {
@@ -63,10 +56,19 @@
             border-radius: 3px;
         }
 
+        .footer-letra {
+            margin-bottom: 20px;
+            color: #bbb;
+        }
+
+        .i-pd {
+            margin-right: 10px;
+        }
+
     </style>
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
 
@@ -117,6 +119,19 @@
 
     <div class="container">
         @yield('content')
+        <footer>
+            <hr>
+            <div class="col-xs-6">
+                <p class="footer-letra">
+                    <i class="fa fa-copyright fa-flip-horizontal"></i> 2017 NetWar
+                </p>
+            </div>
+            <div class="col-xs-6">
+                <p class="footer-letra" style="text-align: right;">
+                    <i class="fa fa-btn fa-github"></i><a href="https://github.com/WilliamCoto/tpiproject">Repositorio del proyecto</a>
+                </p>
+            </div>
+        </footer>
     </div>
 
     <!-- JavaScripts -->
