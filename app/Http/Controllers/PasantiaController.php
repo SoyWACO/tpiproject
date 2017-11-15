@@ -29,14 +29,14 @@ class PasantiaController extends Controller
             $id_empresa = Auth::user()->id;
             $query = trim($request->get('searchText'));
             $pasantias = DB::table('pasantias as p')
-                ->join('users as u', 'p.id_empresa', '=', 'u.id')
-                ->join('pasantia_carrera as pc', 'p.id', '=', 'pc.id_pasantia')
-                ->select('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
+                ->join('users as u', 'p.user_id', '=', 'u.id')
+                ->join('carrera_pasantia as pc', 'p.id', '=', 'pc.pasantia_id')
+                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
                 ->where('p.nombre', 'like', '%'.$query.'%')
                 ->where('p.estado', '=', 'Disponible')
-    			->where('p.id_empresa', '=', $id_empresa)
+    			->where('p.user_id', '=', $id_empresa)
     			->orderBy('p.id', 'desc')
-                ->groupBy('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
+                ->groupBy('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
     			->paginate(10);
     		return view('ofertas.pasantia.index', ["pasantias"=>$pasantias, "searchText"=>$query]);
     	}
@@ -45,60 +45,31 @@ class PasantiaController extends Controller
     {
         $id_empresa = Auth::user()->id;
         $carreras = DB::table('carreras as car')
-            ->select('car.id', 'car.nombre')
-            ->get();
+            ->lists('car.nombre', 'car.id');
         return view('ofertas.pasantia.create', ["empresa"=>$id_empresa, "carreras"=>$carreras]);
     }
     public function store(PasantiaFormRequest $request)
     {
-    	try {
-            DB::beginTransaction();
-                $id_empresa = Auth::user()->id;
-                $pasantia = new Pasantia;
-            	$pasantia->id_empresa = $id_empresa;
-            	$pasantia->nombre = $request->get('nombre');
-            	$pasantia->descripcion = $request->get('descripcion');
-            	$pasantia->sexo = $request->get('sexo');
-            	$pasantia->duracion = $request->get('duracion');
-            	$pasantia->unidad_duracion = $request->get('unidad_duracion');
-            	$pasantia->edad_inicial = $request->get('edad_inicial');
-            	$pasantia->edad_final = $request->get('edad_final');
-            	$pasantia->idioma = $request->get('idioma');
-            	$pasantia->pago = $request->get('pago');
-            	$pasantia->estado = 'Disponible';
-            	$pasantia->save();
-
-                $id_carrera = $request->get('id_carrera');
-
-                $cont = 0;
-                while ($cont < count($id_carrera)) {
-                    $pasantia_carrera = new PasantiaCarrera();
-                    $pasantia_carrera->id_pasantia = $pasantia->id;
-                    $pasantia_carrera->id_carrera = $id_carrera[$cont];
-                    $pasantia_carrera->save();
-                    $cont = $cont+1;
-                }
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollback();
-        }
+    	$pasantia = new Pasantia($request->all());
+        $pasantia->estado = "Disponible";
+        $pasantia->save();
+        
+        $pasantia->carreras()->sync($request->carrera_id);
 
     	return Redirect::to('ofertas/pasantia');
     }
     public function show($id)
     {
     	$pasantia = DB::table('pasantias as p')
-                ->join('users as u', 'p.id_empresa', '=', 'u.id')
-                ->join('pasantia_carrera as pc', 'p.id', '=', 'pc.id_pasantia')
-                ->select('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.sexo', 'p.duracion', 'p.unidad_duracion', 'p.edad_inicial', 'p.edad_final', 'p.idioma', 'p.pago', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad', 'u.direccion', 'u.sector', 'u.telefono', 'u.web')
+                ->join('users as u', 'p.user_id', '=', 'u.id')
+                ->join('carrera_pasantia as pc', 'p.id', '=', 'pc.pasantia_id')
+                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.sexo', 'p.duracion', 'p.unidad_duracion', 'p.edad_inicial', 'p.edad_final', 'p.idioma', 'p.pago', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad', 'u.direccion', 'u.sector', 'u.telefono', 'u.web')
                 ->where('p.id', '=', $id)
                 ->first();
-        $carreras = DB::table('pasantia_carrera as pc')
-                ->join('carreras as c', 'pc.id_carrera', '=', 'c.id')
+        $carreras = DB::table('carrera_pasantia as pc')
+                ->join('carreras as c', 'pc.carrera_id', '=', 'c.id')
                 ->select('c.nombre as carrera')
-                ->where('pc.id_pasantia', '=', $id)
+                ->where('pc.pasantia_id', '=', $id)
                 ->get();
         return view('ofertas.pasantia.show', ["pasantia"=>$pasantia, "carreras"=>$carreras]);
     }
@@ -106,47 +77,20 @@ class PasantiaController extends Controller
     public function edit($id)
     {
     	$tcarreras = DB::table('carreras as car')
-                ->select('car.id', 'car.nombre')
-                ->get();
-        $carreras = DB::table('pasantia_carrera as pc')
-                ->join('carreras as c', 'pc.id_carrera', '=', 'c.id')
-                ->select('c.nombre', 'c.id')
-                ->where('pc.id_pasantia', '=', $id)
-                ->get();
+                ->lists('car.nombre', 'car.id');
+        $carreras = DB::table('carrera_pasantia as pc')
+                ->join('carreras as c', 'pc.carrera_id', '=', 'c.id')
+                ->where('pc.pasantia_id', '=', $id)
+                ->lists('c.id');
         return view('ofertas.pasantia.edit', ["pasantia"=>Pasantia::findOrFail($id), "carreras"=>$carreras, "tcarreras"=>$tcarreras]);
     }
     public function update(PasantiaFormRequest $request, $id)
     {
-    	try {
-            DB::beginTransaction();
-                $pasantia = Pasantia::findOrFail($id);
-                $pasantia->nombre = $request->get('nombre');
-                $pasantia->descripcion = $request->get('descripcion');
-                $pasantia->sexo = $request->get('sexo');
-            	$pasantia->duracion = $request->get('duracion');
-            	$pasantia->unidad_duracion = $request->get('unidad_duracion');
-            	$pasantia->edad_inicial = $request->get('edad_inicial');
-            	$pasantia->edad_final = $request->get('edad_final');
-            	$pasantia->idioma = $request->get('idioma');
-            	$pasantia->pago = $request->get('pago');
-                $pasantia->update();
+        $pasantia = Pasantia::find($id);
+        $pasantia->fill($request->all());
+        $pasantia->save();
 
-                $id_carrera = $request->get('id_carrera');
-
-                $cont = 0;
-                while ($cont < count($id_carrera)) {
-                    $pasantia_carrera = new PasantiaCarrera();
-                    $pasantia_carrera->id_pasantia = $pasantia->id;
-                    $pasantia_carrera->id_carrera = $id_carrera[$cont];
-                    $pasantia_carrera->save();
-                    $cont = $cont+1;
-                }
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollback();
-        }
+        $pasantia->carreras()->sync($request->carrera_id);    	
 
         return Redirect::to('ofertas/pasantia');
     }

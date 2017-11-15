@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProyectoCarrera extends Model
 {
-    protected $table = 'proyecto_carrera';
+    protected $table = 'carrera_proyecto';
     protected $primaryKey = 'id';
     protected $fillable = [
-    	'id_proyecto',
-    	'id_carrera'
+    	'proyecto_id',
+    	'carrera_id'
     ];
     protected $guarded = [
     	//

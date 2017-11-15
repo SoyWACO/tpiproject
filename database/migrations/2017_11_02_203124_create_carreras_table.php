@@ -19,25 +19,25 @@ class CreateCarrerasTable extends Migration
         });
 
         // Relación muchos a muchos: proyecto_carrera
-        Schema::create('proyecto_carrera', function (Blueprint $table) {
+        Schema::create('carrera_proyecto', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_proyecto')->unsigned();
-            $table->integer('id_carrera')->unsigned();
+            $table->integer('proyecto_id')->unsigned();
+            $table->integer('carrera_id')->unsigned();
 
-            $table->foreign('id_proyecto')->references('id')->on('proyectos');
-            $table->foreign('id_carrera')->references('id')->on('carreras');
+            $table->foreign('proyecto_id')->references('id')->on('proyectos');
+            $table->foreign('carrera_id')->references('id')->on('carreras');
 
             $table->timestamps();
         });
 
         // Relación muchos a muchos: pasantia_carrera
-        Schema::create('pasantia_carrera', function (Blueprint $table) {
+        Schema::create('carrera_pasantia', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_pasantia')->unsigned();
-            $table->integer('id_carrera')->unsigned();
+            $table->integer('pasantia_id')->unsigned();
+            $table->integer('carrera_id')->unsigned();
 
-            $table->foreign('id_pasantia')->references('id')->on('pasantias');
-            $table->foreign('id_carrera')->references('id')->on('carreras');
+            $table->foreign('pasantia_id')->references('id')->on('pasantias');
+            $table->foreign('carrera_id')->references('id')->on('carreras');
 
             $table->timestamps();
         });

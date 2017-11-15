@@ -14,11 +14,11 @@ class CreateProyectosTable extends Migration
     {
         Schema::create('proyectos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_empresa')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->string('nombre');
             $table->text('descripcion');
             $table->enum('estado', ['Disponible', 'No disponible']);
-            $table->foreign('id_empresa')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -24,7 +24,7 @@ class PasantiaFormRequest extends Request
     public function rules()
     {
         return [
-            'id_empresa' => 'required',
+            'user_id' => 'required',
             'nombre' => 'required|max:255',
             'descripcion' => 'required',
             'sexo' => 'required',
@@ -34,7 +34,7 @@ class PasantiaFormRequest extends Request
             'edad_final' => 'required|numeric',
             'idioma' => 'max:255',
             'pago' => 'max:255',
-            'id_carrera' => 'required'
+            'carrera_id' => 'required'
         ];
     }
 }

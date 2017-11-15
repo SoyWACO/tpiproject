@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use tpiproject\Http\Requests\ProyectoFormRequest;
 use DB;
 use tpiproject\Proyecto;
+use tpiproject\Carrera;
 use tpiproject\ProyectoCarrera;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
@@ -22,6 +23,7 @@ class ProyectoController extends Controller
     {
     	$this->middleware("auth");
     }
+    
     public function index(Request $request)
     {
         if ($request)
@@ -29,111 +31,74 @@ class ProyectoController extends Controller
             $id_empresa = Auth::user()->id;
             $query = trim($request->get('searchText'));
             $proyectos = DB::table('proyectos as p')
-                ->join('users as u', 'p.id_empresa', '=', 'u.id')
-                ->join('proyecto_carrera as pc', 'p.id', '=', 'pc.id_proyecto')
-                ->select('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
+                ->join('users as u', 'p.user_id', '=', 'u.id')
+                ->join('carrera_proyecto as pc', 'p.id', '=', 'pc.proyecto_id')
+                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
                 ->where('p.nombre', 'like', '%'.$query.'%')
                 ->where('p.estado', '=', 'Disponible')
-    			->where('p.id_empresa', '=', $id_empresa)
+    			->where('p.user_id', '=', $id_empresa)
     			->orderBy('p.id', 'desc')
-                ->groupBy('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
+                ->groupBy('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
     			->paginate(10);
     		return view('ofertas.proyecto.index', ["proyectos"=>$proyectos, "searchText"=>$query]);
     	}
     }
+    
     public function create()
     {
         $id_empresa = Auth::user()->id;
         $carreras = DB::table('carreras as car')
-            ->select('car.id', 'car.nombre')
-            ->get();
+            ->lists('car.nombre', 'car.id');
         return view('ofertas.proyecto.create', ["empresa"=>$id_empresa, "carreras"=>$carreras]);
     }
+    
     public function store(ProyectoFormRequest $request)
     {
-    	try {
-            DB::beginTransaction();
-                $id_empresa = Auth::user()->id;
-                $proyecto = new Proyecto;
-            	$proyecto->id_empresa = $id_empresa;
-            	$proyecto->nombre = $request->get('nombre');
-            	$proyecto->descripcion = $request->get('descripcion');
-            	$proyecto->estado = 'Disponible';
-            	$proyecto->save();
+        $proyecto = new Proyecto($request->all());
+        $proyecto->estado = "Disponible";
+        $proyecto->save();
+        
+        $proyecto->carreras()->sync($request->carrera_id);
 
-                $id_carrera = $request->get('id_carrera');
-
-                $cont = 0;
-                while ($cont < count($id_carrera)) {
-                    $proyecto_carrera = new ProyectoCarrera();
-                    $proyecto_carrera->id_proyecto = $proyecto->id;
-                    $proyecto_carrera->id_carrera = $id_carrera[$cont];
-                    $proyecto_carrera->save();
-                    $cont = $cont+1;
-                }
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollback();
-        }
-
-    	return Redirect::to('ofertas/proyecto');
+        return Redirect::to('ofertas/proyecto');
     }
+    
     public function show($id)
     {
     	$proyecto = DB::table('proyectos as p')
-                ->join('users as u', 'p.id_empresa', '=', 'u.id')
-                ->join('proyecto_carrera as pc', 'p.id', '=', 'pc.id_proyecto')
-                ->select('p.id', 'p.id_empresa', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad', 'u.direccion', 'u.sector', 'u.telefono', 'u.web')
+                ->join('users as u', 'p.user_id', '=', 'u.id')
+                ->join('carrera_proyecto as pc', 'p.id', '=', 'pc.proyecto_id')
+                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad', 'u.direccion', 'u.sector', 'u.telefono', 'u.web')
                 ->where('p.id', '=', $id)
                 ->first();
-        $carreras = DB::table('proyecto_carrera as pc')
-                ->join('carreras as c', 'pc.id_carrera', '=', 'c.id')
+        $carreras = DB::table('carrera_proyecto as pc')
+                ->join('carreras as c', 'pc.carrera_id', '=', 'c.id')
                 ->select('c.nombre as carrera')
-                ->where('pc.id_proyecto', '=', $id)
+                ->where('pc.proyecto_id', '=', $id)
                 ->get();
         return view('ofertas.proyecto.show', ["proyecto"=>$proyecto, "carreras"=>$carreras]);
     }
     
     public function edit($id)
-    {
-    	$tcarreras = DB::table('carreras as car')
-                ->select('car.id', 'car.nombre')
-                ->get();
-        $carreras = DB::table('proyecto_carrera as pc')
-                ->join('carreras as c', 'pc.id_carrera', '=', 'c.id')
-                ->select('c.nombre', 'c.id')
-                ->where('pc.id_proyecto', '=', $id)
-                ->get();
+    {	
+        $tcarreras = DB::table('carreras as car')
+                ->lists('car.nombre', 'car.id');
+        $carreras = DB::table('carrera_proyecto as pc')
+                ->join('carreras as c', 'pc.carrera_id', '=', 'c.id')
+                ->where('pc.proyecto_id', '=', $id)
+                ->lists('c.id');
         return view('ofertas.proyecto.edit', ["proyecto"=>Proyecto::findOrFail($id), "carreras"=>$carreras, "tcarreras"=>$tcarreras]);
     }
+    
     public function update(ProyectoFormRequest $request, $id)
     {
-    	try {
-            DB::beginTransaction();
-                $proyecto = Proyecto::findOrFail($id);
-                $proyecto->nombre = $request->get('nombre');
-                $proyecto->descripcion = $request->get('descripcion');
-                $proyecto->update();
 
-                $id_carrera = $request->get('id_carrera');
+        $proyecto = Proyecto::find($id);
+        $proyecto->fill($request->all());
+        $proyecto->save();
 
-                $cont = 0;
-                while ($cont < count($id_carrera)) {
-                    $proyecto_carrera = new ProyectoCarrera();
-                    $proyecto_carrera->id_proyecto = $proyecto->id;
-                    $proyecto_carrera->id_carrera = $id_carrera[$cont];
-                    $proyecto_carrera->save();
-                    $cont = $cont+1;
-                }
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollback();
-        }
-
+        $proyecto->carreras()->sync($request->carrera_id);
+        
         return Redirect::to('ofertas/proyecto');
     }
     

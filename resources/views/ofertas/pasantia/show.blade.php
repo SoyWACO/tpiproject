@@ -67,7 +67,7 @@
 					<label class="col-sm-3 control-label">Pago</label>
 					<div class="col-sm-9">
 						@if ($pasantia->pago != "")
-							<p class="form-control-static">{{ $pasantia->pago }}</p>
+							<p class="form-control-static">$ {{ $pasantia->pago }}</p>
 						@else
 							<p class="form-control-static">No remunerada</p>
 						@endif

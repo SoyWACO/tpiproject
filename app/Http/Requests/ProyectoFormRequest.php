@@ -24,10 +24,10 @@ class ProyectoFormRequest extends Request
     public function rules()
     {
         return [
-            'id_empresa' => 'required',
+            'user_id' => 'required',
             'nombre' => 'required|max:255',
             'descripcion' => 'required',
-            'id_carrera' => 'required'
+            'carrera_id' => 'required'
         ];
     }
 }

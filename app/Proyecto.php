@@ -9,7 +9,7 @@ class Proyecto extends Model
     protected $table = 'proyectos';
     protected $primaryKey = 'id';
     protected $fillable = [
-    	'id_empresa',
+    	'user_id',
     	'nombre',
     	'descripcion',
     	'estado'
@@ -17,4 +17,14 @@ class Proyecto extends Model
     protected $guarded = [
     	//
     ];
+    
+    public function user()
+    {
+        return $this->belongsTo('tpiproject\User');
+    }
+
+    public function carreras()
+    {
+        return $this->belongsToMany('tpiproject\Carrera');
+    }
 }

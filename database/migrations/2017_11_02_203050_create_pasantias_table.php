@@ -14,7 +14,7 @@ class CreatePasantiasTable extends Migration
     {
         Schema::create('pasantias', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_empresa')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->string('nombre');
             $table->text('descripcion');
             $table->enum('sexo', ['Masculino', 'Femenino', 'Indiferente']);
@@ -25,7 +25,7 @@ class CreatePasantiasTable extends Migration
             $table->string('idioma')->nullable()->default('No se requiere idioma adicional');
             $table->string('pago')->nullable()->default('No remunerada');
             $table->enum('estado', ['Disponible', 'No disponible']);
-            $table->foreign('id_empresa')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

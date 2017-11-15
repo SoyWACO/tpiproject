@@ -14,4 +14,14 @@ class Carrera extends Model
     protected $guarded = [
     	//
     ];
+
+    public function proyectos()
+    {
+    	return $this->belongsToMany('tpiproject\Proyecto')->withTimestamps();
+    }
+
+    public function pasantias()
+    {
+    	return $this->belongsToMany('tpiproject\Pasantia')->withTimestamps();
+    }
 }
