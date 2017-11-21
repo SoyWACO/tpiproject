@@ -24,6 +24,9 @@
 				<li class="list-group-item">
 					<i class="fa fa-map-marker i-pd" aria-hidden="true"></i>{{ Auth::user()->ciudad }}
 				</li>
+				<li class="list-group-item">
+					<i class="fa fa-map i-pd" aria-hidden="true"></i>{{ Auth::user()->direccion }}
+				</li>
 			</ul>
 	</div>
 </div>

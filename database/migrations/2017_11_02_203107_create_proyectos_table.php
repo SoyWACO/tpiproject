@@ -17,7 +17,6 @@ class CreateProyectosTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('nombre');
             $table->text('descripcion');
-            $table->enum('estado', ['Disponible', 'No disponible']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

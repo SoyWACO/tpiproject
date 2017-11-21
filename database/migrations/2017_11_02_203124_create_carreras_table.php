@@ -24,8 +24,8 @@ class CreateCarrerasTable extends Migration
             $table->integer('proyecto_id')->unsigned();
             $table->integer('carrera_id')->unsigned();
 
-            $table->foreign('proyecto_id')->references('id')->on('proyectos');
-            $table->foreign('carrera_id')->references('id')->on('carreras');
+            $table->foreign('proyecto_id')->references('id')->on('proyectos')->onDelete('cascade');
+            $table->foreign('carrera_id')->references('id')->on('carreras')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -36,8 +36,8 @@ class CreateCarrerasTable extends Migration
             $table->integer('pasantia_id')->unsigned();
             $table->integer('carrera_id')->unsigned();
 
-            $table->foreign('pasantia_id')->references('id')->on('pasantias');
-            $table->foreign('carrera_id')->references('id')->on('carreras');
+            $table->foreign('pasantia_id')->references('id')->on('pasantias')->onDelete('cascade');
+            $table->foreign('carrera_id')->references('id')->on('carreras')->onDelete('cascade');
 
             $table->timestamps();
         });

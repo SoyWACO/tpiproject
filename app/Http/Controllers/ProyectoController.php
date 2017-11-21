@@ -33,12 +33,11 @@ class ProyectoController extends Controller
             $proyectos = DB::table('proyectos as p')
                 ->join('users as u', 'p.user_id', '=', 'u.id')
                 ->join('carrera_proyecto as pc', 'p.id', '=', 'pc.proyecto_id')
-                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
+                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.created_at', 'u.empresa')
                 ->where('p.nombre', 'like', '%'.$query.'%')
-                ->where('p.estado', '=', 'Disponible')
     			->where('p.user_id', '=', $id_empresa)
     			->orderBy('p.id', 'desc')
-                ->groupBy('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa')
+                ->groupBy('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.created_at', 'u.empresa')
     			->paginate(10);
     		return view('ofertas.proyecto.index', ["proyectos"=>$proyectos, "searchText"=>$query]);
     	}
@@ -48,6 +47,7 @@ class ProyectoController extends Controller
     {
         $id_empresa = Auth::user()->id;
         $carreras = DB::table('carreras as car')
+            ->orderBy('nombre', 'asc')
             ->lists('car.nombre', 'car.id');
         return view('ofertas.proyecto.create', ["empresa"=>$id_empresa, "carreras"=>$carreras]);
     }
@@ -55,7 +55,6 @@ class ProyectoController extends Controller
     public function store(ProyectoFormRequest $request)
     {
         $proyecto = new Proyecto($request->all());
-        $proyecto->estado = "Disponible";
         $proyecto->save();
         
         $proyecto->carreras()->sync($request->carrera_id);
@@ -68,7 +67,7 @@ class ProyectoController extends Controller
     	$proyecto = DB::table('proyectos as p')
                 ->join('users as u', 'p.user_id', '=', 'u.id')
                 ->join('carrera_proyecto as pc', 'p.id', '=', 'pc.proyecto_id')
-                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad', 'u.direccion', 'u.sector', 'u.telefono', 'u.web')
+                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad', 'u.direccion', 'u.sector', 'u.telefono', 'u.web')
                 ->where('p.id', '=', $id)
                 ->first();
         $carreras = DB::table('carrera_proyecto as pc')
@@ -82,6 +81,7 @@ class ProyectoController extends Controller
     public function edit($id)
     {	
         $tcarreras = DB::table('carreras as car')
+                ->orderBy('nombre', 'asc')
                 ->lists('car.nombre', 'car.id');
         $carreras = DB::table('carrera_proyecto as pc')
                 ->join('carreras as c', 'pc.carrera_id', '=', 'c.id')
@@ -104,9 +104,13 @@ class ProyectoController extends Controller
     
     public function destroy($id)
     {
-   		$proyecto = Proyecto::findOrFail($id);
+   		$proyecto = DB::table('proyectos')->where('id', '=', $id)->delete();
+        return Redirect::to('ofertas/proyecto');
+        /*
+        $proyecto = Proyecto::findOrFail($id);
    		$proyecto->estado = 'No disponible';
    		$proyecto->update();
    		return Redirect::to('ofertas/proyecto');
+        */
     }
 }

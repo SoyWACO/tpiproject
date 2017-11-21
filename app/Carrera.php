@@ -24,4 +24,9 @@ class Carrera extends Model
     {
     	return $this->belongsToMany('tpiproject\Pasantia')->withTimestamps();
     }
+
+    public function scopeSearchCarrera($query, $id)
+    {
+        return $query->where('id', '=', '$id');
+    }
 }

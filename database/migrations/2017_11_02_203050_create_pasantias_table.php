@@ -24,7 +24,7 @@ class CreatePasantiasTable extends Migration
             $table->integer('edad_final')->unsigned();
             $table->string('idioma')->nullable()->default('No se requiere idioma adicional');
             $table->string('pago')->nullable()->default('No remunerada');
-            $table->enum('estado', ['Disponible', 'No disponible']);
+            $table->enum('tiempo_pago', ['Diarios', 'Semanales', 'Quincenales', 'Mensuales'])->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -29,20 +29,18 @@ class BuscarProyectoController extends Controller
         if ($request)
         {
             $query = trim($request->get('searchText'));
+            $carreras = Carrera::orderBy('nombre', 'asc')->get();
             $proyectos = DB::table('proyectos as p')
                 ->join('users as u', 'p.user_id', '=', 'u.id')
                 ->join('carrera_proyecto as pc', 'p.id', '=', 'pc.proyecto_id')
-                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad')
+                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad')
                 ->where('p.nombre', 'like', '%'.$query.'%')
-                ->where('p.estado', '=', 'Disponible')
                 ->orwhere('p.descripcion', 'like', '%'.$query.'%')
-                ->where('p.estado', '=', 'Disponible')
                 ->orwhere('u.ciudad', 'like', '%'.$query.'%')
-                ->where('p.estado', '=', 'Disponible')
                 ->orderBy('p.created_at', 'desc')
-                ->groupBy('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad')
+                ->groupBy('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad')
                 ->paginate(5);
-            return view('buscar.proyecto.index', ["proyectos"=>$proyectos, "searchText"=>$query]);
+            return view('buscar.proyecto.index', ["proyectos"=>$proyectos, "searchText"=>$query, "carreras"=>$carreras]);
     	}
     }
 
@@ -51,7 +49,7 @@ class BuscarProyectoController extends Controller
         $proyecto = DB::table('proyectos as p')
                 ->join('users as u', 'p.user_id', '=', 'u.id')
                 ->join('carrera_proyecto as pc', 'p.id', '=', 'pc.proyecto_id')
-                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.estado', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad', 'u.direccion', 'u.sector', 'u.telefono', 'u.web')
+                ->select('p.id', 'p.user_id', 'p.nombre', 'p.descripcion', 'p.created_at', 'u.empresa', 'u.email', 'u.ciudad', 'u.direccion', 'u.sector', 'u.telefono', 'u.web')
                 ->where('p.id', '=', $id)
                 ->first();
         $carreras = DB::table('carrera_proyecto as pc')
@@ -60,5 +58,23 @@ class BuscarProyectoController extends Controller
                 ->where('pc.proyecto_id', '=', $id)
                 ->get();
         return view('buscar.proyecto.show', ["proyecto"=>$proyecto, "carreras"=>$carreras]);
+    }
+
+    public function searchCarrera($id)
+    {
+        $query = "";
+        $carreras = Carrera::orderBy('nombre', 'asc')->get();
+        $carrera = Carrera::where('id', '=', $id)->first();
+        $proyectos = $carrera->proyectos()
+                //->join('users as u', 'proyectos.user_id', '=', 'u.id')
+                //->select('u.empresa', 'u.email', 'u.ciudad')
+                //->groupBy('u.empresa', 'u.email', 'u.ciudad')
+                ->orderBy('proyectos.created_at', 'desc')
+                ->paginate(5);
+        return view('buscar.proyecto.index')
+            ->with('proyectos', $proyectos)
+            ->with('searchText', $query)
+            ->with('carreras', $carreras);
+        
     }
 }

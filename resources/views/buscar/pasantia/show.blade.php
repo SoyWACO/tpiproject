@@ -59,7 +59,7 @@
 					<label class="col-sm-3 control-label">Pago</label>
 					<div class="col-sm-9">
 						@if ($pasantia->pago != "")
-							<p class="form-control-static">{{ $pasantia->pago }}</p>
+							<p class="form-control-static">$ {{ $pasantia->pago }} {{ $pasantia->tiempo_pago }}</p>
 						@else
 							<p class="form-control-static">No remunerada</p>
 						@endif
@@ -74,58 +74,36 @@
 					</div>
 				</div>
 			</form>
-			<h3>Información de la empresa</h3>
-			<hr>
-			<form class="form-horizontal">
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Nombre</label>
-					<div class="col-sm-9">
-						<p class="form-control-static">{{ $pasantia->empresa }}</p>
-					</div>
+		</div>
+		<div class="col-md-3 col-md-offset-1">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Información de contacto</h4>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Sector</label>
-					<div class="col-sm-9">
-						<p class="form-control-static">{{ $pasantia->sector }}</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Correo electrónico</label>
-					<div class="col-sm-9">
-						<a href="mailto:{{ $pasantia->email }}">
-							<p class="form-control-static">{{ $pasantia->email }}</p>
-						</a>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Teléfono</label>
-					<div class="col-sm-9">
-						<a href="tel:{{ $pasantia->telefono }}">
-							<p class="form-control-static">{{ $pasantia->telefono }}</p>
-						</a>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Sitio web</label>
-					<div class="col-sm-9">
-						<a href="//{{ $pasantia->web }}">
-							<p class="form-control-static">{{ $pasantia->web }}</p>
-						</a>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Ubicación</label>
-					<div class="col-sm-9">
-						<p class="form-control-static">{{ $pasantia->ciudad }}</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Dirección</label>
-					<div class="col-sm-9">
-						<p class="form-control-static">{{ $pasantia->direccion }}</p>
-					</div>
-				</div>
-			</form>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<i class="fa fa-institution i-pd" aria-hidden="true"></i>{{ $pasantia->empresa }}
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-bookmark i-pd" aria-hidden="true"></i>{{ $pasantia->sector }}
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-envelope i-pd" aria-hidden="true"></i><a href="mailto:{{ $pasantia->email }}">{{ $pasantia->email }}</a>
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-phone i-pd" aria-hidden="true"></i><a href="tel:{{ $pasantia->telefono }}">{{ $pasantia->telefono }}</a>
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-globe i-pd" aria-hidden="true"></i><a href="//{{ $pasantia->web }}" target="_black">{{ $pasantia->web }}</a>
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-map-marker i-pd" aria-hidden="true"></i>{{ $pasantia->ciudad }}
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-map i-pd" aria-hidden="true"></i>{{ $pasantia->direccion }}
+						</li>
+					</ul>
+			</div>
 		</div>
 	</div>
 

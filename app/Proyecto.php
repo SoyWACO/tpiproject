@@ -11,8 +11,7 @@ class Proyecto extends Model
     protected $fillable = [
     	'user_id',
     	'nombre',
-    	'descripcion',
-    	'estado'
+    	'descripcion'
     ];
     protected $guarded = [
     	//

@@ -19,7 +19,7 @@ class Pasantia extends Model
     	'edad_final',
     	'idioma',
     	'pago',
-    	'estado'
+    	'tiempo_pago'
     ];
     protected $guarded = [
     	//

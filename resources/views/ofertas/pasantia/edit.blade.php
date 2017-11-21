@@ -61,12 +61,10 @@
 				<label for="edad" class="control-label">Edad*</label>
 				<div class="form-inline">
 					<div class="form-group">
-						<label>De</label>
-						<input type="number" name="edad_inicial" class="form-control" placeholder="Edad mínima" value="{{ $pasantia->edad_inicial }}"></input>
+						De <input type="number" name="edad_inicial" class="form-control" placeholder="Edad mínima" value="{{ $pasantia->edad_inicial }}"></input>
 					</div>
 					<div class="form-group">
-						<label>Hasta</label>
-						<input type="number" name="edad_final" class="form-control" placeholder="Edad máxima" value="{{ $pasantia->edad_final }}"></input>
+						Hasta <input type="number" name="edad_final" class="form-control" placeholder="Edad máxima" value="{{ $pasantia->edad_final }}"></input>
 					</div>
 				</div>
 			</div>
@@ -79,7 +77,8 @@
 			<div class="form-group">
 				<label for="pago" class="control-label">Pago</label>
 				<div class="form-inline">
-					<input type="number" name="pago" class="form-control" placeholder="Pago de la pasantía" value="{{ $pasantia->pago }}"></input>
+					$ <input type="number" name="pago" class="form-control" placeholder="Pago de la pasantía" value="{{ $pasantia->pago }}"></input>
+					{!! Form::select('tiempo_pago', array('Diarios'=>'Diarios', 'Semanales'=>'Semanales', 'Quincenales'=>'Quincenales', 'Mensuales'=>'Mensuales'), $pasantia->tiempo_pago, ['class'=>'form-control', 'placeholder'=>'-- Periodo --']) !!}
 				</div>
 			</div>
 

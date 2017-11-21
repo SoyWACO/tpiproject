@@ -67,7 +67,7 @@
 					<label class="col-sm-3 control-label">Pago</label>
 					<div class="col-sm-9">
 						@if ($pasantia->pago != "")
-							<p class="form-control-static">$ {{ $pasantia->pago }}</p>
+							<p class="form-control-static">$ {{ $pasantia->pago }} {{ $pasantia->tiempo_pago }}</p>
 						@else
 							<p class="form-control-static">No remunerada</p>
 						@endif
@@ -116,7 +116,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Sitio web</label>
 					<div class="col-sm-9">
-						<a href="//{{ $pasantia->web }}">
+						<a href="//{{ $pasantia->web }}" target="_black">
 							<p class="form-control-static">{{ $pasantia->web }}</p>
 						</a>
 					</div>

@@ -91,6 +91,13 @@
 				<label for="pago" class="control-label">Pago</label>
 				<div class="form-inline">
 					$ <input type="number" name="pago" class="form-control" placeholder="Pago de la pasantía" value="{{ old('pago') }}" min="0.01" step="0.01"></input>
+					<select name="tiempo_pago" id="tiempo_pago" class="form-control">
+						<option value="">-- Periodo --</option>
+						<option value="Diarios">Diarios</option>
+						<option value="Semanales">Semanales</option>
+						<option value="Quincenales">Quincenales</option>
+						<option value="Mensuales">Mensuales</option>
+					</select>
 				</div>
 			</div>
 
@@ -118,29 +125,4 @@
 		});
 	</script>
 @endpush
-@endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
+@endsection	

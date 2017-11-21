@@ -36,58 +36,36 @@
 					</div>
 				</div>
 			</form>
-			<h3>Información de la empresa</h3>
-			<hr>
-			<form class="form-horizontal">
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Nombre</label>
-					<div class="col-sm-9">
-						<p class="form-control-static">{{ $proyecto->empresa }}</p>
-					</div>
+		</div>
+		<div class="col-md-3 col-md-offset-1">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Información de contacto</h4>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Sector</label>
-					<div class="col-sm-9">
-						<p class="form-control-static">{{ $proyecto->sector }}</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Correo electrónico</label>
-					<div class="col-sm-9">
-						<a href="mailto:{{ $proyecto->email }}">
-							<p class="form-control-static">{{ $proyecto->email }}</p>
-						</a>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Teléfono</label>
-					<div class="col-sm-9">
-						<a href="tel:{{ $proyecto->telefono }}">
-							<p class="form-control-static">{{ $proyecto->telefono }}</p>
-						</a>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Sitio web</label>
-					<div class="col-sm-9">
-						<a href="//{{ $proyecto->web }}">
-							<p class="form-control-static">{{ $proyecto->web }}</p>
-						</a>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Ubicación</label>
-					<div class="col-sm-9">
-						<p class="form-control-static">{{ $proyecto->ciudad }}</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Dirección</label>
-					<div class="col-sm-9">
-						<p class="form-control-static">{{ $proyecto->direccion }}</p>
-					</div>
-				</div>
-			</form>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<i class="fa fa-institution i-pd" aria-hidden="true"></i>{{ $proyecto->empresa }}
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-bookmark i-pd" aria-hidden="true"></i>{{ $proyecto->sector }}
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-envelope i-pd" aria-hidden="true"></i><a href="mailto:{{ $proyecto->email }}">{{ $proyecto->email }}</a>
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-phone i-pd" aria-hidden="true"></i><a href="tel:{{ $proyecto->telefono }}">{{ $proyecto->telefono }}</a>
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-globe i-pd" aria-hidden="true"></i><a href="//{{ $proyecto->web }}" target="_black">{{ $proyecto->web }}</a>
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-map-marker i-pd" aria-hidden="true"></i>{{ $proyecto->ciudad }}
+						</li>
+						<li class="list-group-item">
+							<i class="fa fa-map i-pd" aria-hidden="true"></i>{{ $proyecto->direccion }}
+						</li>
+					</ul>
+			</div>
 		</div>
 	</div>
 

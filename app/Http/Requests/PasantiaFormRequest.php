@@ -34,6 +34,7 @@ class PasantiaFormRequest extends Request
             'edad_final' => 'required|numeric',
             'idioma' => 'max:255',
             'pago' => 'max:255',
+            'tiempo_pago' => 'max:255',
             'carrera_id' => 'required'
         ];
     }

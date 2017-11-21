@@ -78,7 +78,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Sitio web</label>
 					<div class="col-sm-9">
-						<a href="//{{ $proyecto->web }}">
+						<a href="//{{ $proyecto->web }}" target="_black">
 							<p class="form-control-static">{{ $proyecto->web }}</p>
 						</a>
 					</div>
