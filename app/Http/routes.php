@@ -29,6 +29,10 @@ Route::resource('buscar/pasantia', 'BuscarPasantiaController');
 
 Route::resource('administracion/carreras', 'CarreraController');
 
+Route::resource('administracion/proyecto', 'AdmProyectoController');
+
+Route::resource('administracion/pasantia', 'AdmPasantiaController');
+
 Route::get('proyectos-carrera/{id}', [
 	'uses' => 'BuscarProyectoController@searchCarrera',
 	'as' => 'buscar.search.procarrera'

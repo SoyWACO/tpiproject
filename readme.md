@@ -1,27 +1,59 @@
-# Laravel PHP Framework
+# ¿Cómo poner en marcha el proyecto?
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+## Clonar el proyecto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+Para clonar el proyecto utiliza el comando de git:
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+git clone https://github.com/WilliamCoto/tpiproject.git
 
-## Official Documentation
+## Instalar composer
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+En la consola ubicate en la carpeta del proyecto [tpiproject] y ejecuta la siguiente instrucción:
 
-## Contributing
+composer install
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+## Configurar archivo .env
 
-## Security Vulnerabilities
+1. Abre en tu editor de texto preferido el archivo .env.example
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+2. Modifica el nombre de la base de datos, nombre de usuario y contraseña si es necesario. Puedes crear una base de datos con el nombre "tpiproject" o modificarlo. El nombre de usuario y contraseña son los que trae por defecto XAMPP.
 
-## License
+DB_DATABASE=tpiproject
+DB_USERNAME=root
+DB_PASSWORD=
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+3. Guarda los cambios.
+
+4. Cambia el nombre del archivo .env.example a .env solamente.
+
+## Base de datos
+
+1. En la consola ubicate en la carpeta del proyecto [tpiproject] y ejecuta la siguiente instrucción:
+
+php artisan migrate
+
+2. En la carpeta tpiproject/database/mis_registros se encuentra el archivo carreras.csv con algunos registros para llenar la tabla de carreras.
+
+NOTA: Han habido cambios importantes en algunas tablas y campos de las mismas, por lo que si tienes una versión antigua del proyecto [anterior a la fecha 21/11/2017] se recomienda hacer las migraciones en una base de datos nueva o borrar todas las tablas de tu base de datos actual y hacer nuevamente las migraciones.
+
+## Correr la aplicación
+
+1. Enciende el modulo de Apache y MySQL.
+
+2. En la consola ubicate en la carpeta del proyecto [tpiproject] y ejecuta la siguiente instrucción:
+
+php artisan serve
+
+3. En tu navegador ingresa a:
+
+http://localhost:8000/
+
+## Generar llave
+
+Si te aparece un error como "No supported encrypter found. The cipher and / or key length are invalid.", en la consola ubicate en la carpeta del proyecto [tpiproject] y ejecuta la siguiente instrucción:
+
+php artisan key:generate
+
+## Crear primer usuario Administrador
+
+Puedes crear un usuario desde la aplicación en la parte de "Registro", por defecto se le asignará el tipo de usuario "Empresa", y posteriormente asignarle el tipo de usuario "Administrador" desde tu gestor de base de datos.
