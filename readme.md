@@ -16,11 +16,11 @@ En la consola ubicate en la carpeta del proyecto [tpiproject] y ejecuta la sigui
 
 1. Abre en tu editor de texto preferido el archivo .env.example
 
-2. Modifica el nombre de la base de datos, nombre de usuario y contraseña si es necesario. Puedes crear una base de datos con el nombre "tpiproject" o modificarlo. El nombre de usuario y contraseña son los que trae por defecto XAMPP.
+2. Modifica el nombre de la base de datos, nombre de usuario y contraseña con los datos correspondientes según tu caso. [Por defecto en XAMPP el nombre de usuario es "root" y no tiene contraseña].
 
-	DB_DATABASE=tpiproject
+	DB_DATABASE=
 
-	DB_USERNAME=root
+	DB_USERNAME=
 
 	DB_PASSWORD=
 

@@ -92,8 +92,17 @@
                 <ul class="nav navbar-nav">
                     <!-- <li><a href="{{ url('/home') }}">Inicio</a></li> -->
                     <li><a href="{{ url('buscar/proyecto') }}">Inicio</a></li>
-                    <li><a href="{{ url('ofertas/proyecto') }}">Proyectos</a></li>
-                    <li><a href="{{ url('ofertas/pasantia') }}">Pasantías</a></li>
+                    @if (!(Auth::guest()))
+                        @if (Auth::user()->admin())
+                            <li><a href="{{ url('administracion/users') }}">Usuarios</a></li>
+                            <li><a href="{{ url('administracion/carreras') }}">Carreras</a></li>
+                            <li><a href="{{ url('administracion/proyecto') }}">Proyectos</a></li>
+                            <li><a href="{{ url('administracion/pasantia') }}">Pasantías</a></li>
+                        @else
+                            <li><a href="{{ url('ofertas/proyecto') }}">Proyectos</a></li>
+                            <li><a href="{{ url('ofertas/pasantia') }}">Pasantías</a></li>
+                        @endif
+                    @endif
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -109,7 +118,13 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Cerrar sesión</a></li>
+                                @if (Auth::user()->admin())
+                                    <li><a href="{{ url('ofertas/proyecto') }}">Mis proyectos</a></li>
+                                    <li><a href="{{ url('ofertas/pasantia') }}">Mis pasantías</a></li>
+                                    <hr style="margin-bottom: 8px; margin-top: 8px;">
+                                @endif
+                                <li><a href="{{ URL::action('UsuarioController@edit', Auth::user()->id) }}">Editar perfil</a></li>
+                                <li><a href="{{ url('/logout') }}">Cerrar sesión</a></li>
                             </ul>
                         </li>
                     @endif

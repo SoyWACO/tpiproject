@@ -3,6 +3,7 @@
 namespace tpiproject;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -32,5 +33,18 @@ class User extends Authenticatable
     public function proyectos()
     {
         return $this->hasMany('tpiproject\Proyecto');
+    }
+
+    public function admin()
+    {
+        return $this->tipo === 'Administrador';
+    }
+    
+    public function setPasswordAttribute($value)
+    {
+        if ( ! empty ($value))
+        {
+            $this->attributes['password'] = Hash::make($value);
+        }
     }
 }

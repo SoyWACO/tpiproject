@@ -20,7 +20,7 @@ class PasantiaController extends Controller
 {
     public function __construct()
     {
-    	$this->middleware("auth");
+    	//
     }
     public function index(Request $request)
     {
@@ -82,8 +82,15 @@ class PasantiaController extends Controller
                 ->join('carreras as c', 'pc.carrera_id', '=', 'c.id')
                 ->where('pc.pasantia_id', '=', $id)
                 ->lists('c.id');
-        return view('ofertas.pasantia.edit', ["pasantia"=>Pasantia::findOrFail($id), "carreras"=>$carreras, "tcarreras"=>$tcarreras]);
+        $pasantia = Pasantia::findOrFail($id);
+
+        if ($pasantia->user_id == Auth::user()->id) {
+            return view('ofertas.pasantia.edit', ["pasantia"=>$pasantia, "carreras"=>$carreras, "tcarreras"=>$tcarreras]);
+        } else {
+            return Redirect::to('ofertas/pasantia');
+        }
     }
+    
     public function update(PasantiaFormRequest $request, $id)
     {
         $pasantia = Pasantia::find($id);
@@ -99,11 +106,5 @@ class PasantiaController extends Controller
     {
    		$pasantia = DB::table('pasantias')->where('id', '=', $id)->delete();
         return Redirect::to('ofertas/pasantia');
-        /*
-        $pasantia = Pasantia::findOrFail($id);
-   		$pasantia->estado = 'No disponible';
-   		$pasantia->update();
-   		return Redirect::to('ofertas/pasantia');
-        */
     }
 }

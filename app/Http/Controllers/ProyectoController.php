@@ -21,7 +21,7 @@ class ProyectoController extends Controller
 {
     public function __construct()
     {
-    	$this->middleware("auth");
+    	//
     }
     
     public function index(Request $request)
@@ -87,7 +87,15 @@ class ProyectoController extends Controller
                 ->join('carreras as c', 'pc.carrera_id', '=', 'c.id')
                 ->where('pc.proyecto_id', '=', $id)
                 ->lists('c.id');
-        return view('ofertas.proyecto.edit', ["proyecto"=>Proyecto::findOrFail($id), "carreras"=>$carreras, "tcarreras"=>$tcarreras]);
+        $proyecto = Proyecto::findOrFail($id);
+
+        if ($proyecto->user_id == Auth::user()->id) {
+            return view('ofertas.proyecto.edit', ["proyecto"=>$proyecto, "carreras"=>$carreras, "tcarreras"=>$tcarreras]);
+        } else {
+            return Redirect::to('ofertas/proyecto');
+        }
+
+        
     }
     
     public function update(ProyectoFormRequest $request, $id)
@@ -106,11 +114,5 @@ class ProyectoController extends Controller
     {
    		$proyecto = DB::table('proyectos')->where('id', '=', $id)->delete();
         return Redirect::to('ofertas/proyecto');
-        /*
-        $proyecto = Proyecto::findOrFail($id);
-   		$proyecto->estado = 'No disponible';
-   		$proyecto->update();
-   		return Redirect::to('ofertas/proyecto');
-        */
     }
 }

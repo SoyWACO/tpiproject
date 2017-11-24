@@ -6,14 +6,16 @@
 	<div class="row">
 		<div class="col-md-3">
 			@include('layouts.profile')
+			<a href="/administracion/carreras/create">
+				<button class="btn btn-success btn-block">
+					<i class="fa fa-plus i-pd" aria-hidden="true"></i>Nueva carrera
+				</button>
+			</a>
 		</div>
 		<div class="col-md-9">
-			<div class="page-header">
-		  		<h3>
-		  			Panel de administración de carreras <a href="carreras/create"><button class="btn btn-success" style="margin-left: 10px;"><i class="fa fa-plus i-pd" aria-hidden="true"></i>Nueva carrera</button></a>
-		  		</h3>
-			</div>
-			<div>
+		  	<h3>Panel de administración de carreras</h3>
+			<hr>
+			<div style="margin-bottom: 20px;">
 				@include('administracion.carreras.search')
 			</div>
 			<div>

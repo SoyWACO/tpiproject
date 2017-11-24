@@ -17,21 +17,33 @@ Route::get('/', function () {
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+//Route::get('/home', 'HomeController@index');
 
-Route::resource('ofertas/proyecto', 'ProyectoController');
+Route::group(['middleware' => 'auth'], function () {
 
-Route::resource('ofertas/pasantia', 'PasantiaController');
+	Route::resource('ofertas/proyecto', 'ProyectoController');
+
+	Route::resource('ofertas/pasantia', 'PasantiaController');
+
+	Route::resource('auth', 'UsuarioController');
+	
+	Route::group(['middleware' => 'admin'], function() {
+
+		Route::resource('administracion/carreras', 'CarreraController');
+
+		Route::resource('administracion/proyecto', 'AdmProyectoController');
+
+		Route::resource('administracion/pasantia', 'AdmPasantiaController');
+
+		Route::resource('administracion/users', 'UserController');
+	
+	});
+
+});
 
 Route::resource('buscar/proyecto', 'BuscarProyectoController');
 
 Route::resource('buscar/pasantia', 'BuscarPasantiaController');
-
-Route::resource('administracion/carreras', 'CarreraController');
-
-Route::resource('administracion/proyecto', 'AdmProyectoController');
-
-Route::resource('administracion/pasantia', 'AdmPasantiaController');
 
 Route::get('proyectos-carrera/{id}', [
 	'uses' => 'BuscarProyectoController@searchCarrera',
@@ -42,3 +54,11 @@ Route::get('pasantias-carrera/{id}', [
 	'uses' => 'BuscarPasantiaController@searchCarrera',
 	'as' => 'buscar.search.pascarrera'
 ]);
+
+Route::get('/{slug?}', 'HomeController@index');
+
+Route::get('/administracion/{slug?}', 'HomeController@index');
+
+Route::get('/ofertas/{slug?}', 'HomeController@index');
+
+Route::get('/buscar/{slug?}', 'HomeController@index');

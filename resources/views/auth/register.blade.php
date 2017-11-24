@@ -130,7 +130,7 @@
                             'Pública' => 'Pública',
                             'Privada' => 'Privada',
                             'ONG' => 'ONG',
-                        ], null, ['class' => 'form-control', 'placeholder' => '-- Sector de su empresa --']); !!}
+                        ], null, ['class' => 'form-control', 'placeholder' => '-- Sector de la empresa --']); !!}
 
                         @if ($errors->has('sector'))
                             <span class="help-block">
@@ -454,7 +454,7 @@
                     <label for="direccion" class="col-md-4 control-label">Dirección</label>
 
                     <div class="col-md-7">
-                        <input id="direccion" type="text" class="form-control" name="direccion" value="{{ old('direccion') }}" placeholder="Dirección de su empresa">
+                        <input id="direccion" type="text" class="form-control" name="direccion" value="{{ old('direccion') }}" placeholder="Dirección de la empresa">
 
                         @if ($errors->has('direccion'))
                             <span class="help-block">
