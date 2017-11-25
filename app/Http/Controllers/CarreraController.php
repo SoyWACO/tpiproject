@@ -38,7 +38,8 @@ class CarreraController extends Controller
         $carrera = new Carrera;
         $carrera->nombre = $request->get('nombre');
         $carrera->save();
-    	return Redirect::to('administracion/carreras');
+    	flash('Se ha creado la carrera '.$carrera->nombre.' correctamente.')->success()->important();
+        return Redirect::to('administracion/carreras');
     }
     public function show($id)
     {
@@ -53,12 +54,14 @@ class CarreraController extends Controller
     	$carrera = Carrera::findOrFail($id);
         $carrera->nombre = $request->get('nombre');
     	$carrera->update();
-    	return Redirect::to('administracion/carreras');
+    	flash('Se ha editado la carrera '.$carrera->nombre.' correctamente.')->success()->important();
+        return Redirect::to('administracion/carreras');
     }
     public function destroy($id)
     {
    		$carrera = Carrera::findOrFail($id);
    		$carrera->delete();
+        flash('Se ha eliminado la carrera correctamente.')->error()->important();
    		return Redirect::to('administracion/carreras');
     }
 }

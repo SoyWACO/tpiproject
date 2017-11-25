@@ -57,6 +57,8 @@ class AdmProyectoController extends Controller
         $proyecto = new Proyecto($request->all());
         $proyecto->save();
         
+        flash('Se ha creado el proyecto '.$proyecto->nombre.' correctamente.')->success()->important();
+
         $proyecto->carreras()->sync($request->carrera_id);
 
         return Redirect::to('administracion/proyecto');
@@ -97,6 +99,8 @@ class AdmProyectoController extends Controller
         $proyecto->fill($request->all());
         $proyecto->save();
 
+        flash('Se ha editado el proyecto '.$proyecto->nombre.' correctamente.')->success()->important();
+
         $proyecto->carreras()->sync($request->carrera_id);
         
         return Redirect::to('administracion/proyecto');
@@ -105,6 +109,7 @@ class AdmProyectoController extends Controller
     public function destroy($id)
     {
    		$proyecto = DB::table('proyectos')->where('id', '=', $id)->delete();
+        flash('Se ha eliminado el proyecto correctamente.')->error()->important();
         return Redirect::to('administracion/proyecto');
     }
 }

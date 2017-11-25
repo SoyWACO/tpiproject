@@ -26,8 +26,7 @@ class Administrador
         if ($this->auth->user()->admin()) {
             return $next($request);
         } else {
-            //abort(401);
-            dd('Acceso restringido');
+            abort(401);
         }
     }
 }

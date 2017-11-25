@@ -59,6 +59,8 @@ class ProyectoController extends Controller
         
         $proyecto->carreras()->sync($request->carrera_id);
 
+        flash('Se ha creado el proyecto '.$proyecto->nombre.' correctamente.')->success()->important();
+
         return Redirect::to('ofertas/proyecto');
     }
     
@@ -107,12 +109,15 @@ class ProyectoController extends Controller
 
         $proyecto->carreras()->sync($request->carrera_id);
         
+        flash('Se ha editado el proyecto '.$proyecto->nombre.' correctamente.')->success()->important();
+
         return Redirect::to('ofertas/proyecto');
     }
     
     public function destroy($id)
     {
    		$proyecto = DB::table('proyectos')->where('id', '=', $id)->delete();
+        flash('Se ha eliminado el proyecto correctamente.')->error()->important();
         return Redirect::to('ofertas/proyecto');
     }
 }

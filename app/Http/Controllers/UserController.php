@@ -48,7 +48,7 @@ class UserController extends Controller
         $user = new User($request->all());
         $user->password = bcrypt($request->password);
         $user->save();
-
+        flash('Se ha registrado al usuario '.$user->name.' correctamente.')->success()->important();
         return Redirect::to('administracion/users');
     }
     
@@ -68,10 +68,21 @@ class UserController extends Controller
     
     public function update(UserFormRequest $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user->fill($request->all());
-        //$user->password = bcrypt($request->password);
-        $user->save();
+        try {
+            DB::beginTransaction();
+                $user = User::findOrFail($id);
+                $user->fill($request->all());
+                
+                $user->save();
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            flash('El correo electrónico ya existe, coloque otro.')->warning()->important();
+            return Redirect::to('administracion/users/'.$id.'/edit');
+        }
+        
+        flash('Se ha editado al usuario '.$user->name.' correctamente.')->success()->important();
         
         return Redirect::to('administracion/users');
     }
@@ -79,6 +90,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = DB::table('users')->where('id', '=', $id)->delete();
+        flash('Se ha eliminado al usuario correctamente.')->error()->important();
         return Redirect::to('administracion/users');
     }
 }

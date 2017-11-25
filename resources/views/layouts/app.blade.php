@@ -134,6 +134,7 @@
     </nav>
 
     <div class="container">
+        @include('flash::message')
         @yield('content')
         <footer>
             <hr>

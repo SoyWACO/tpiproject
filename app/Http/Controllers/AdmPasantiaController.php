@@ -56,6 +56,8 @@ class AdmPasantiaController extends Controller
         
         $pasantia->carreras()->sync($request->carrera_id);
 
+        flash('Se ha creado la pasantia '.$pasantia->nombre.' correctamente.')->success()->important();
+
     	return Redirect::to('administracion/pasantia');
     }
     public function show($id)
@@ -91,6 +93,8 @@ class AdmPasantiaController extends Controller
         $pasantia->fill($request->all());
         $pasantia->save();
 
+        flash('Se ha editado la pasantia '.$pasantia->nombre.' correctamente.')->success()->important();
+
         $pasantia->carreras()->sync($request->carrera_id);    	
 
         return Redirect::to('administracion/pasantia');
@@ -99,6 +103,7 @@ class AdmPasantiaController extends Controller
     public function destroy($id)
     {
    		$pasantia = DB::table('pasantias')->where('id', '=', $id)->delete();
+        flash('Se ha eliminado la pasantia correctamente.')->error()->important();
         return Redirect::to('administracion/pasantia');
     }
 }

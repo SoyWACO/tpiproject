@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use Response;
 
+
 class UsuarioController extends Controller
 {
     public function __construct()
@@ -40,11 +41,19 @@ class UsuarioController extends Controller
     
     public function update(UsuarioFormRequest $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user->fill($request->all());
-        
-        $user->save();
-        
+        try {
+            DB::beginTransaction();
+                $user = User::findOrFail($id);
+                $user->fill($request->all());
+                
+                $user->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            flash('El correo electrónico ya existe, coloque otro.')->warning()->important();
+            return Redirect::to('auth/'.$id.'/edit');
+        }
+        flash('Has editado tu perfil correctamente.')->success()->important();
         return Redirect::to('ofertas/proyecto');
     }
 }
